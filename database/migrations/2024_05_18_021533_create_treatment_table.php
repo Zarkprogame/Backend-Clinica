@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('treatment', function (Blueprint $table) {
+        Schema::create('treatments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('historial_id');
+            $table->text('descripcion');
+            $table->decimal('costo', 8, 2);
             $table->timestamps();
+
+            $table->foreign('historial_id')->references('id')->on('medical_records')->onDelete('cascade');
         });
     }
 
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('treatment');
+        Schema::dropIfExists('treatments');
     }
 };

@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoice', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('paciente_id');
+            $table->date('fecha_emision');
+            $table->decimal('total', 8, 2);
+            $table->string('estado');
             $table->timestamps();
+
+            $table->foreign('paciente_id')->references('id')->on('patients')->onDelete('cascade');
         });
     }
 
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoice');
+        Schema::dropIfExists('invoices');
     }
 };

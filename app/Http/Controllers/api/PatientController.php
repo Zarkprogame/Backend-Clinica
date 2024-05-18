@@ -5,9 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\PatientModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
-class PacienteController extends Controller
+class PatientController extends Controller
 {
     public function index()
     {

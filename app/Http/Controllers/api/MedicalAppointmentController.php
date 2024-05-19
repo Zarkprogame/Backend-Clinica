@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\MedicalAppointmentModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MedicalAppointmentController extends Controller
 {
@@ -12,7 +14,11 @@ class MedicalAppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = DB::table('medical_appointments')
+            ->join('patients', 'medical_appointments.paciente_id', '=', 'patients.id')
+            ->select('medical_appointments.*', 'patients.nombre')
+            ->get();
+        return json_encode(['appointments' => $appointments]);
     }
 
     /**
@@ -20,7 +26,14 @@ class MedicalAppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $appointment = new MedicalAppointmentModel();
+        $appointment->id = $request->id;
+        $appointment->paciente_id = $request->paciente_id;
+        $appointment->fecha_hora = $request->fecha_hora;
+        $appointment->tipo = $request->tipo;
+        $appointment->estado = $request->estado;
+        $appointment->save();
+        return json_encode(['$appointment' => $appointment]);
     }
 
     /**
@@ -28,7 +41,11 @@ class MedicalAppointmentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $appointment = MedicalAppointmentModel::find($id);
+        $patients = DB::table('patients')
+            ->orderBy('nombre')
+            ->get();
+        return json_encode(['appointment' => $appointment, 'patients' => $patients]);
     }
 
     /**
@@ -36,7 +53,15 @@ class MedicalAppointmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $appointment = MedicalAppointmentModel::find($id);
+        $appointment->id = $request->id;
+        $appointment->paciente_id = $request->paciente_id;
+        $appointment->fecha_hora = $request->fecha_hora;
+        $appointment->tipo = $request->tipo;
+        $appointment->estado = $request->estado;
+        $appointment->save();
+
+        return json_encode(['$appointment' => $appointment]);
     }
 
     /**
@@ -44,6 +69,14 @@ class MedicalAppointmentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $appointment = MedicalAppointmentModel::find($id);
+        $appointment->destroy();
+
+        $appointments = DB::table('medical_appointments')
+            ->join('patients', 'medical_appointments.paciente_id', '=', 'patients.id')
+            ->select('medical_appointments.*', 'patients.nombre')
+            ->get();
+
+        return json_encode(['appointments' => $appointments, 'success' => true]);
     }
 }

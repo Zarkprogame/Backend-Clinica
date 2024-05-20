@@ -16,7 +16,7 @@ class TreatmentController extends Controller
     {
         $treatments = DB::table('treatments')
             ->join('medical_records', 'treatments.historial_id', '=', 'medical_records.id')
-            ->select('treatments.*', 'medical_records.descripcion')
+            ->select('treatments.*', 'medical_records.descripcion as record_description')
             ->get();
         return json_encode(['treatments' => $treatments]);
     }
@@ -42,9 +42,12 @@ class TreatmentController extends Controller
     {
         $treatment = TreatmentModel::find($id);
         $records = DB::table('medical_records')
-            ->orderBy('nombre')
+            ->orderBy('id')
             ->get();
-        return json_encode(['treatment' => $treatment, 'records' => $records]);
+        return response()->json([
+            'treatment' => $treatment,
+            'records' => $records
+        ], 200);
     }
 
     /**
@@ -53,7 +56,6 @@ class TreatmentController extends Controller
     public function update(Request $request, string $id)
     {
         $treatment = TreatmentModel::find($id);
-        $treatment->id = $request->id;
         $treatment->historial_id = $request->historial_id;
         $treatment->descripcion = $request->descripcion;
         $treatment->costo = $request->costo;

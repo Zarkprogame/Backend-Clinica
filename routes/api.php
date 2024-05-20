@@ -5,6 +5,7 @@ use App\Http\Controllers\api\MedicalRecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\PatientController;
+use App\Models\InvoiceModel;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,3 +28,9 @@ Route::get('/records', [MedicalRecordController::class, 'index'])->name('records
 Route::delete('/records/{record}', [MedicalRecordController::class, 'destroy'])->name('records.destroy');
 Route::get('/records/{record}', [MedicalRecordController::class, 'show'])->name('records.show');
 Route::put('/records/{record}', [MedicalRecordController::class, 'update'])->name('records.update');
+
+Route::post('/invoices', [InvoiceModel::class, 'store'])->name('invoices.store');
+Route::get('/invoices', [InvoiceModel::class, 'index'])->name('invoices');
+Route::delete('/invoices/{invoice}', [InvoiceModel::class, 'destroy'])->name('invoices.destroy');
+Route::get('/invoices/{invoice}', [InvoiceModel::class, 'show'])->name('invoices.show');
+Route::put('/invoices/{invoice}', [InvoiceModel::class, 'update'])->name('invoices.update');

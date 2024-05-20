@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\api\InvoiceController;
 use App\Http\Controllers\api\MedicalAppointmentController;
 use App\Http\Controllers\api\MedicalRecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\PatientController;
-use App\Models\InvoiceModel;
-use App\Models\TreatmentModel;
+use App\Http\Controllers\api\TreatmentController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,14 +30,14 @@ Route::delete('/records/{record}', [MedicalRecordController::class, 'destroy'])-
 Route::get('/records/{record}', [MedicalRecordController::class, 'show'])->name('records.show');
 Route::put('/records/{record}', [MedicalRecordController::class, 'update'])->name('records.update');
 
-Route::post('/invoices', [InvoiceModel::class, 'store'])->name('invoices.store');
-Route::get('/invoices', [InvoiceModel::class, 'index'])->name('invoices');
-Route::delete('/invoices/{invoice}', [InvoiceModel::class, 'destroy'])->name('invoices.destroy');
-Route::get('/invoices/{invoice}', [InvoiceModel::class, 'show'])->name('invoices.show');
-Route::put('/invoices/{invoice}', [InvoiceModel::class, 'update'])->name('invoices.update');
+Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
+Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
 
-Route::post('/treatments', [TreatmentModel::class, 'store'])->name('treatments.store');
-Route::get('/treatments', [TreatmentModel::class, 'index'])->name('treatments');
-Route::delete('/treatments/{treatment}', [TreatmentModel::class, 'destroy'])->name('treatments.destroy');
-Route::get('/treatments/{treatment}', [TreatmentModel::class, 'show'])->name('treatments.show');
-Route::put('/treatments/{treatment}', [TreatmentModel::class, 'update'])->name('treatments.update');
+Route::post('/treatments', [TreatmentController::class, 'store'])->name('treatments.store');
+Route::get('/treatments', [TreatmentController::class, 'index'])->name('treatments');
+Route::delete('/treatments/{treatment}', [TreatmentController::class, 'destroy'])->name('treatments.destroy');
+Route::get('/treatments/{treatment}', [TreatmentController::class, 'show'])->name('treatments.show');
+Route::put('/treatments/{treatment}', [TreatmentController::class, 'update'])->name('treatments.update');

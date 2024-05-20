@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
 use App\Models\MedicalAppointmentModel;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -70,7 +70,7 @@ class MedicalAppointmentController extends Controller
     public function destroy(string $id)
     {
         $appointment = MedicalAppointmentModel::find($id);
-        $appointment->destroy();
+        $appointment->delete();
 
         $appointments = DB::table('medical_appointments')
             ->join('patients', 'medical_appointments.paciente_id', '=', 'patients.id')

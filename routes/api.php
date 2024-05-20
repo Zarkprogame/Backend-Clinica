@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\MedicalAppointmentController;
+use App\Http\Controllers\api\MedicalRecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\PatientController;
@@ -20,3 +21,9 @@ Route::get('/appointments', [MedicalAppointmentController::class, 'index'])->nam
 Route::delete('/appointments/{appointment}', [MedicalAppointmentController::class, 'destroy'])->name('appointments.destroy');
 Route::get('/appointments/{appointment}', [MedicalAppointmentController::class, 'show'])->name('appointments.show');
 Route::put('/appointments/{appointment}', [MedicalAppointmentController::class, 'update'])->name('appointments.update');
+
+Route::post('/records', [MedicalRecordController::class, 'store'])->name('records.store');
+Route::get('/records', [MedicalRecordController::class, 'index'])->name('records');
+Route::delete('/records/{record}', [MedicalRecordController::class, 'destroy'])->name('records.destroy');
+Route::get('/records/{record}', [MedicalRecordController::class, 'show'])->name('records.show');
+Route::put('/records/{record}', [MedicalRecordController::class, 'update'])->name('records.update');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\PatientController;
 use App\Models\InvoiceModel;
+use App\Models\TreatmentModel;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -34,3 +35,9 @@ Route::get('/invoices', [InvoiceModel::class, 'index'])->name('invoices');
 Route::delete('/invoices/{invoice}', [InvoiceModel::class, 'destroy'])->name('invoices.destroy');
 Route::get('/invoices/{invoice}', [InvoiceModel::class, 'show'])->name('invoices.show');
 Route::put('/invoices/{invoice}', [InvoiceModel::class, 'update'])->name('invoices.update');
+
+Route::post('/treatments', [TreatmentModel::class, 'store'])->name('treatments.store');
+Route::get('/treatments', [TreatmentModel::class, 'index'])->name('treatments');
+Route::delete('/treatments/{treatment}', [TreatmentModel::class, 'destroy'])->name('treatments.destroy');
+Route::get('/treatments/{treatment}', [TreatmentModel::class, 'show'])->name('treatments.show');
+Route::put('/treatments/{treatment}', [TreatmentModel::class, 'update'])->name('treatments.update');

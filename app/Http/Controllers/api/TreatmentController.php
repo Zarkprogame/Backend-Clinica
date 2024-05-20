@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\TreatmentModel;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
@@ -12,7 +14,11 @@ class TreatmentController extends Controller
      */
     public function index()
     {
-        //
+        $treatments = DB::table('treatments')
+            ->join('medical_records', 'treatments.historial_id', '=', 'medical_records.id')
+            ->select('treatments.*', 'medical_records.descripcion')
+            ->get();
+        return json_encode(['treatments' => $treatments]);
     }
 
     /**
@@ -20,7 +26,13 @@ class TreatmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $treatment = new TreatmentModel();
+        $treatment->id = $request->id;
+        $treatment->historial_id = $request->historial_id;
+        $treatment->descripcion = $request->descripcion;
+        $treatment->costo = $request->costo;
+        $treatment->save();
+        return json_encode(['$treatment' => $treatment]);
     }
 
     /**
@@ -28,7 +40,11 @@ class TreatmentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $treatment = TreatmentModel::find($id);
+        $records = DB::table('medical_records')
+            ->orderBy('nombre')
+            ->get();
+        return json_encode(['treatment' => $treatment, 'records' => $records]);
     }
 
     /**
@@ -36,7 +52,13 @@ class TreatmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $treatment = TreatmentModel::find($id);
+        $treatment->id = $request->id;
+        $treatment->historial_id = $request->historial_id;
+        $treatment->descripcion = $request->descripcion;
+        $treatment->costo = $request->costo;
+        $treatment->save();
+        return json_encode(['$treatment' => $treatment]);
     }
 
     /**
@@ -44,6 +66,14 @@ class TreatmentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $treatment = TreatmentModel::find($id);
+        $treatment->delete();
+
+        $treatments = DB::table('treatments')
+            ->join('medical_records', 'treatments.historial_id', '=', 'medical_records.id')
+            ->select('treatments.*', 'medical_records.descripcion')
+            ->get();
+
+        return json_encode(['treatments' => $treatments, 'success' => true]);
     }
 }
